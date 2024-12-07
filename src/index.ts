@@ -1,5 +1,6 @@
 import "express-async-errors";
 import { createContainer } from "./container";
+import { SwapiService } from "./shared/swapi/swapi-service";
 
 (async () => {
   const container = await createContainer();
@@ -18,4 +19,7 @@ import { createContainer } from "./container";
   const { server, port } = container.cradle;
   server.listen(port);
   container.cradle.logger.info(`listening on port: ${port}`);
+
+  const swapiService: SwapiService = container.resolve("swapiService");
+  await swapiService.sheduleGetAndSaveSwapiResources();
 })();

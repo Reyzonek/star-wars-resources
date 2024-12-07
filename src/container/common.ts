@@ -6,6 +6,8 @@ import { createLogger, restrictFromProduction } from "@tshio/logger";
 import { AppConfig } from "../config/app";
 import { cacheClient } from "../tools/cache-client";
 import { createRouter } from "../app/router";
+import { SwapiClient } from "../shared/swapi/swapi-client";
+import { SwapiService } from "../shared/swapi/swapi-service";
 
 export async function registerCommonDependencies(appConfig: AppConfig, container: AwilixContainer) {
   await cacheClient.connect();
@@ -23,6 +25,8 @@ export async function registerCommonDependencies(appConfig: AppConfig, container
       .classic()
       .singleton()
       .inject(() => ({ throwOnFailure: false })),
+    swapiClient: asClass(SwapiClient),
+    swapiService: asClass(SwapiService),
   });
 
   return container;
