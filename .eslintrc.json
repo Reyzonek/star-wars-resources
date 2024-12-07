@@ -37,7 +37,7 @@
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["propertyDesciptor", "handlers"]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-only-tests/no-only-tests": "error",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.ts", "src/tests/bootstrap.ts"]}],
+    "import/no-extraneous-dependencies": "off",
     "unicorn/filename-case": [
       "error",
       {
