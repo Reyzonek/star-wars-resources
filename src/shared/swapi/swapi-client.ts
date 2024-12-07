@@ -7,7 +7,7 @@ export interface SwapiClientDependencies {
 }
 
 export class SwapiClient {
-  private dependencies: SwapiClientDependencies;
+  constructor(private dependencies: SwapiClientDependencies) {}
 
   public get(path: SwapiPath) {
     const url = `${this.dependencies.appConfig.swapiBaseUrl}/${path}`;

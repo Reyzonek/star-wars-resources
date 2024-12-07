@@ -6,6 +6,7 @@ export interface AppConfig {
   port: string;
   env: string;
   swapiBaseUrl: string;
+  getSwapiResourceScheduleTime: string;
 }
 
 const loadConfig = (env: any): AppConfig => ({
@@ -13,6 +14,7 @@ const loadConfig = (env: any): AppConfig => ({
   port: env.PORT ?? "1337",
   env: env.STAGE,
   swapiBaseUrl: env.SWAPI_BASE_URL,
+  getSwapiResourceScheduleTime: env.GET_SWAPI_RESOURCE_SCHEDULE_TIME,
 });
 
 const validateConfig = (config: AppConfig) => {
@@ -21,6 +23,7 @@ const validateConfig = (config: AppConfig) => {
     port: Joi.string().required(),
     env: Joi.string().required(),
     swapiBaseUrl: Joi.string().required(),
+    getSwapiResourceScheduleTime: Joi.string().required(),
   });
   const { error, value } = schema.validate(config);
 
