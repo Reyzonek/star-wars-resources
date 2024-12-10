@@ -2,6 +2,7 @@ import { AwilixContainer, asValue } from "awilix";
 import { Logger } from "winston";
 import { ContainerDependencies } from "../container";
 import { dataSource } from "../config/db";
+import { FilmEntity } from "../app/features/films/models/film.entity";
 // MODELS_IMPORTS
 
 export async function registerDatabase(container: AwilixContainer, dependencies?: ContainerDependencies) {
@@ -16,6 +17,7 @@ export async function registerDatabase(container: AwilixContainer, dependencies?
   }
   container.register({
     dbDataSource: asValue(dbDataSource),
+    filmRepository: asValue(dbDataSource.getRepository(FilmEntity)),
     // MODELS_SETUP
   });
 }

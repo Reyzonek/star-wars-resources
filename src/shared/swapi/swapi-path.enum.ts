@@ -1,5 +1,5 @@
-export enum SwapiPath {
-  PLANETS = "planets",
-  PEOPLE = "people",
+export enum SwapiResource {
+  // PLANETS = "planets",
+  // PEOPLE = "people",
   FILMS = "films",
 }
