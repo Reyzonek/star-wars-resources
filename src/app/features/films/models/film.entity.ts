@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
+import { SpeciesEntity } from "../../species/models/species.entity";
 
 interface FilmEntityProps {
   id: number;
@@ -8,9 +9,12 @@ interface FilmEntityProps {
   director: string;
   producer: string;
   release_date: Date;
+  species: SpeciesEntity[];
   url: string;
   created: Date;
   edited: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 @Entity({
@@ -44,8 +48,9 @@ export class FilmEntity {
   @Column()
   release_date: Date;
 
-  // @Column()
-  // species: string;
+  @ManyToMany(() => SpeciesEntity, (species) => species.films)
+  @JoinTable()
+  species: SpeciesEntity[];
 
   // @Column()
   // starships: string;

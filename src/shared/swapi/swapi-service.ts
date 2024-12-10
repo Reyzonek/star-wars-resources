@@ -6,21 +6,15 @@ import { SwapiClient } from "./swapi-client";
 import { SwapiResource } from "./swapi-path.enum";
 import { SwapiClientError } from "../../errors/swapi-client.error";
 import { FilmEntity } from "../../app/features/films/models/film.entity";
-import { InvalidResourceError } from "../../errors/invalid-resource.error";
 import { IdNotFoundError } from "../../errors/id-not-found-error";
+import { SpeciesEntity } from "../../app/features/species/models/species.entity";
 
 interface SwapiServiceDependencies {
   swapiClient: SwapiClient;
   appConfig: AppConfig;
   logger: Logger;
   filmRepository: Repository<FilmEntity>;
-}
-
-type ResultsType = FilmEntity[];
-
-interface SwapiResourceInterface {
-  resource: SwapiResource;
-  results: ResultsType;
+  speciesRepository: Repository<SpeciesEntity>;
 }
 
 export class SwapiService {
@@ -30,53 +24,56 @@ export class SwapiService {
     const { appConfig } = this.dependencies;
 
     schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
-      const swapiResources: SwapiResourceInterface[] = await Promise.all(
-        Object.values(SwapiResource).map(async (resource) => {
-          const results = await this.getResourceFromSwapi(resource);
-          return { resource, results };
-        }),
-      );
-
-      await this.saveResources(swapiResources);
+      await Promise.all([this.getAndSaveFilms(), this.getAndSaveSpecies()]);
     });
   }
 
-  private async getResourceFromSwapi(resource: SwapiResource): Promise<ResultsType> {
-    const { swapiClient, logger } = this.dependencies;
+  private async getAndSaveFilms(): Promise<void> {
+    const { swapiClient, logger, filmRepository } = this.dependencies;
 
-    let results: ResultsType = [];
+    let films = [];
 
     try {
-      const resourceFromSwapi = await swapiClient.get(resource);
-      results = resourceFromSwapi.data.results;
+      const filmsFromSwapi = await swapiClient.get(SwapiResource.FILMS);
+      films = filmsFromSwapi.data.results;
     } catch (error) {
       logger.error(error as any);
-      throw new SwapiClientError(resource);
+      throw new SwapiClientError(SwapiResource.FILMS);
     }
 
-    return results;
-  }
-
-  private async saveResources(swapiResources: SwapiResourceInterface[]): Promise<void> {
-    await Promise.all(
-      swapiResources.map(async (swapiResource) => {
-        const { results, resource } = swapiResource;
-        const { filmRepository, logger } = this.dependencies;
-
-        switch (resource) {
-          case SwapiResource.FILMS: {
-            const filmEntities = results.map((result) =>
-              FilmEntity.create({ ...result, id: this.getIdFromUrl(result.url) }),
-            );
-            await filmRepository.save(filmEntities, { chunk: 20 });
-            logger.info(`Saved films: ${results.map((result) => result.title).join(",")}`);
-            break;
-          }
-          default:
-            throw new InvalidResourceError(resource);
-        }
+    const filmEntities = films.map((film: any) =>
+      FilmEntity.create({
+        ...film,
+        id: this.getIdFromUrl(film.url),
+        species: film.species.map((species: string) => this.getIdFromUrl(species)),
       }),
     );
+
+    await filmRepository.save(filmEntities, { chunk: 20 });
+  }
+
+  private async getAndSaveSpecies(): Promise<void> {
+    const { swapiClient, logger, speciesRepository } = this.dependencies;
+
+    let species = [];
+
+    try {
+      const speciesFromSwapi = await swapiClient.get(SwapiResource.SPECIES);
+      species = speciesFromSwapi.data.results;
+    } catch (error) {
+      logger.error(error as any);
+      throw new SwapiClientError(SwapiResource.SPECIES);
+    }
+
+    const speciesEntities = species.map((spiecies: any) =>
+      FilmEntity.create({
+        ...spiecies,
+        id: this.getIdFromUrl(spiecies.url),
+        films: spiecies.films.map((film: string) => this.getIdFromUrl(film)),
+      }),
+    );
+
+    await speciesRepository.save(speciesEntities, { chunk: 20 });
   }
 
   private getIdFromUrl(url: string): number {

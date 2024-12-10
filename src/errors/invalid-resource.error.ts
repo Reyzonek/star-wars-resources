@@ -1,7 +1,7 @@
 import { HttpError } from "./http.error";
 
 export class InvalidResourceError extends HttpError {
-  constructor(resource: string) {
-    super(404, `Resource ${resource} not found.`);
+  constructor() {
+    super(404, "Resource was not found.");
   }
 }

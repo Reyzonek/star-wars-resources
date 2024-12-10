@@ -3,6 +3,7 @@ import { Logger } from "winston";
 import { ContainerDependencies } from "../container";
 import { dataSource } from "../config/db";
 import { FilmEntity } from "../app/features/films/models/film.entity";
+import { SpeciesEntity } from "../app/features/species/models/species.entity";
 // MODELS_IMPORTS
 
 export async function registerDatabase(container: AwilixContainer, dependencies?: ContainerDependencies) {
@@ -18,6 +19,7 @@ export async function registerDatabase(container: AwilixContainer, dependencies?
   container.register({
     dbDataSource: asValue(dbDataSource),
     filmRepository: asValue(dbDataSource.getRepository(FilmEntity)),
+    speciesRepository: asValue(dbDataSource.getRepository(SpeciesEntity)),
     // MODELS_SETUP
   });
 }
