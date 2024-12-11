@@ -1,5 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { FilmEntity } from "../../films/models/film.entity";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 interface SpeciesEntityProps {
   id: number;
@@ -13,7 +12,8 @@ interface SpeciesEntityProps {
   skin_colors: string;
   language: string;
   homeworld: string;
-  films: FilmEntity[];
+  films: string[];
+  people: string[];
   url: string;
   created: string;
   edited: string;
@@ -64,11 +64,17 @@ export class SpeciesEntity {
   @Column({ nullable: true })
   homeworld: string;
 
-  // @Column()
-  // people: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  people: string[];
 
-  @ManyToMany(() => FilmEntity, (film) => film.species)
-  films: FilmEntity[];
+  @Column({
+    type: "text",
+    array: true,
+  })
+  films: string[];
 
   @Column({ unique: true })
   url: string;

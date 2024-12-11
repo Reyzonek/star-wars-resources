@@ -3,4 +3,5 @@ export enum SwapiResource {
   // PEOPLE = "people",
   FILMS = "films",
   SPECIES = "species",
+  VEHICLES = "vehicles",
 }

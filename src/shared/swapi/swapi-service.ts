@@ -8,6 +8,7 @@ import { SwapiClientError } from "../../errors/swapi-client.error";
 import { FilmEntity } from "../../app/features/films/models/film.entity";
 import { IdNotFoundError } from "../../errors/id-not-found-error";
 import { SpeciesEntity } from "../../app/features/species/models/species.entity";
+import { VehicleEntity } from "../../app/features/vehicles/models/vehicle.entity";
 
 interface SwapiServiceDependencies {
   swapiClient: SwapiClient;
@@ -15,6 +16,7 @@ interface SwapiServiceDependencies {
   logger: Logger;
   filmRepository: Repository<FilmEntity>;
   speciesRepository: Repository<SpeciesEntity>;
+  vehicleRepository: Repository<VehicleEntity>;
 }
 
 export class SwapiService {
@@ -24,7 +26,7 @@ export class SwapiService {
     const { appConfig } = this.dependencies;
 
     schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
-      await Promise.all([this.getAndSaveFilms(), this.getAndSaveSpecies()]);
+      await Promise.all([this.getAndSaveFilms(), this.getAndSaveSpecies(), this.getAndSaveVehicles()]);
     });
   }
 
@@ -45,11 +47,10 @@ export class SwapiService {
       FilmEntity.create({
         ...film,
         id: this.getIdFromUrl(film.url),
-        species: film.species.map((species: string) => this.getIdFromUrl(species)),
       }),
     );
 
-    await filmRepository.save(filmEntities, { chunk: 20 });
+    await filmRepository.save(filmEntities);
   }
 
   private async getAndSaveSpecies(): Promise<void> {
@@ -69,11 +70,33 @@ export class SwapiService {
       FilmEntity.create({
         ...spiecies,
         id: this.getIdFromUrl(spiecies.url),
-        films: spiecies.films.map((film: string) => this.getIdFromUrl(film)),
       }),
     );
 
-    await speciesRepository.save(speciesEntities, { chunk: 20 });
+    await speciesRepository.save(speciesEntities);
+  }
+
+  private async getAndSaveVehicles(): Promise<void> {
+    const { swapiClient, logger, vehicleRepository } = this.dependencies;
+
+    let vehicles = [];
+
+    try {
+      const vehiclesFromSwapi = await swapiClient.get(SwapiResource.VEHICLES);
+      vehicles = vehiclesFromSwapi.data.results;
+    } catch (error) {
+      logger.error(error as any);
+      throw new SwapiClientError(SwapiResource.VEHICLES);
+    }
+
+    const vehiclesEntities = vehicles.map((vehicle: any) =>
+      VehicleEntity.create({
+        ...vehicle,
+        id: this.getIdFromUrl(vehicle.url),
+      }),
+    );
+
+    await vehicleRepository.save(vehiclesEntities, { chunk: 20 });
   }
 
   private getIdFromUrl(url: string): number {

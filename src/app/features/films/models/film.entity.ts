@@ -1,5 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { SpeciesEntity } from "../../species/models/species.entity";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 interface FilmEntityProps {
   id: number;
@@ -9,7 +8,10 @@ interface FilmEntityProps {
   director: string;
   producer: string;
   release_date: Date;
-  species: SpeciesEntity[];
+  species: string[];
+  vehicles: string[];
+  characters: string[];
+  planets: string[];
   url: string;
   created: Date;
   edited: Date;
@@ -48,21 +50,35 @@ export class FilmEntity {
   @Column()
   release_date: Date;
 
-  @ManyToMany(() => SpeciesEntity, (species) => species.films)
-  @JoinTable()
-  species: SpeciesEntity[];
+  @Column({
+    type: "text",
+    array: true,
+  })
+  species: string[];
 
-  // @Column()
-  // starships: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  starships: string;
 
-  // @Column()
-  // vehicles: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  vehicles: string[];
 
-  // @Column()
-  // characters: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  characters: string[];
 
-  // @Column()
-  // planets: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  planets: string[];
 
   @Column({ unique: true })
   url: string;
