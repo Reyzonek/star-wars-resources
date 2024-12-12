@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { AppConfig } from "../../config/app";
 import { SwapiClient } from "./swapi-client";
 import { SwapiResource } from "./swapi-path.enum";
-import { SwapiClientError } from "../../errors/swapi-client.error";
 import { FilmEntity } from "../../app/features/films/models/film.entity";
 import { IdNotFoundError } from "../../errors/id-not-found-error";
 import { SpeciesEntity } from "../../app/features/species/models/species.entity";
@@ -43,17 +42,9 @@ export class SwapiService {
   private async getAndSaveFilms(): Promise<void> {
     const { swapiClient, logger, filmRepository } = this.dependencies;
 
-    let films = [];
+    const filmsFromSwapi = await swapiClient.get(SwapiResource.FILMS);
 
-    try {
-      const filmsFromSwapi = await swapiClient.get(SwapiResource.FILMS);
-      films = filmsFromSwapi.data.results;
-    } catch (error) {
-      logger.error(error as any);
-      throw new SwapiClientError(SwapiResource.FILMS);
-    }
-
-    const filmEntities = films.map((film: any) =>
+    const filmEntities: FilmEntity[] = filmsFromSwapi.map((film: any) =>
       FilmEntity.create({
         ...film,
         id: this.getIdFromUrl(film.url),
@@ -61,22 +52,15 @@ export class SwapiService {
     );
 
     await filmRepository.save(filmEntities);
+    logger.info(`Saved films: ${filmEntities.map((film) => film.title).join(", ")}`);
   }
 
   private async getAndSaveSpecies(): Promise<void> {
     const { swapiClient, logger, speciesRepository } = this.dependencies;
 
-    let species = [];
+    const speciesFromSwapi = await swapiClient.get(SwapiResource.SPECIES);
 
-    try {
-      const speciesFromSwapi = await swapiClient.get(SwapiResource.SPECIES);
-      species = speciesFromSwapi.data.results;
-    } catch (error) {
-      logger.error(error as any);
-      throw new SwapiClientError(SwapiResource.SPECIES);
-    }
-
-    const speciesEntities = species.map((spiecies: any) =>
+    const speciesEntities: SpeciesEntity[] = speciesFromSwapi.map((spiecies: any) =>
       SpeciesEntity.create({
         ...spiecies,
         id: this.getIdFromUrl(spiecies.url),
@@ -84,22 +68,15 @@ export class SwapiService {
     );
 
     await speciesRepository.save(speciesEntities);
+    logger.info(`Saved species: ${speciesEntities.map((species) => species.name).join(", ")}`);
   }
 
   private async getAndSaveVehicles(): Promise<void> {
     const { swapiClient, logger, vehicleRepository } = this.dependencies;
 
-    let vehicles = [];
+    const vehiclesFromSwapi = await swapiClient.get(SwapiResource.VEHICLES);
 
-    try {
-      const vehiclesFromSwapi = await swapiClient.get(SwapiResource.VEHICLES);
-      vehicles = vehiclesFromSwapi.data.results;
-    } catch (error) {
-      logger.error(error as any);
-      throw new SwapiClientError(SwapiResource.VEHICLES);
-    }
-
-    const vehiclesEntities = vehicles.map((vehicle: any) =>
+    const vehiclesEntities: VehicleEntity[] = vehiclesFromSwapi.map((vehicle: any) =>
       VehicleEntity.create({
         ...vehicle,
         id: this.getIdFromUrl(vehicle.url),
@@ -107,22 +84,15 @@ export class SwapiService {
     );
 
     await vehicleRepository.save(vehiclesEntities);
+    logger.info(`Saved vehicles: ${vehiclesEntities.map((vehicle) => vehicle.name).join(", ")}`);
   }
 
   private async getAndSaveStarships(): Promise<void> {
     const { swapiClient, logger, starshipRepository } = this.dependencies;
 
-    let starships = [];
+    const starshipsFromSwapi = await swapiClient.get(SwapiResource.STARSHIPS);
 
-    try {
-      const starshipsFromSwapi = await swapiClient.get(SwapiResource.STARSHIPS);
-      starships = starshipsFromSwapi.data.results;
-    } catch (error) {
-      logger.error(error as any);
-      throw new SwapiClientError(SwapiResource.STARSHIPS);
-    }
-
-    const starshipsEntities = starships.map((starship: any) =>
+    const starshipsEntities: StarshipEntity[] = starshipsFromSwapi.map((starship: any) =>
       StarshipEntity.create({
         ...starship,
         id: this.getIdFromUrl(starship.url),
@@ -130,22 +100,15 @@ export class SwapiService {
     );
 
     await starshipRepository.save(starshipsEntities);
+    logger.info(`Saved starships: ${starshipsEntities.map((starship) => starship.name).join(", ")}`);
   }
 
   private async getAndSavePlanets(): Promise<void> {
     const { swapiClient, logger, planetRepository } = this.dependencies;
 
-    let planets = [];
+    const planetsFromSwapi: PlanetEntity[] = await swapiClient.get(SwapiResource.PLANETS);
 
-    try {
-      const planetsFromSwapi = await swapiClient.get(SwapiResource.PLANETS);
-      planets = planetsFromSwapi.data.results;
-    } catch (error) {
-      logger.error(error as any);
-      throw new SwapiClientError(SwapiResource.PLANETS);
-    }
-
-    const planetsEntities = planets.map((planet: any) =>
+    const planetsEntities = planetsFromSwapi.map((planet: any) =>
       PlanetEntity.create({
         ...planet,
         id: this.getIdFromUrl(planet.url),
@@ -153,6 +116,7 @@ export class SwapiService {
     );
 
     await planetRepository.save(planetsEntities);
+    logger.info(`Saved planets: ${planetsEntities.map((planet) => planet.name).join(", ")}`);
   }
 
   private getIdFromUrl(url: string): number {
