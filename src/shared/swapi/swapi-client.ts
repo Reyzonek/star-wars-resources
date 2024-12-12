@@ -3,6 +3,7 @@ import { Logger } from "@tshio/logger";
 import { AppConfig } from "../../config/app";
 import { SwapiResource } from "./swapi-path.enum";
 import { SwapiClientError } from "../../errors/swapi-client.error";
+import { SwapiClientLoopError } from "../../errors/swapi-client-loop.error";
 
 export interface SwapiClientDependencies {
   appConfig: AppConfig;
@@ -13,18 +14,30 @@ export class SwapiClient {
   constructor(private dependencies: SwapiClientDependencies) {}
 
   public async get(path: SwapiResource) {
-    const url = `${this.dependencies.appConfig.swapiBaseUrl}/${path}`;
+    const allResources: any = [];
+    const urls = [`${this.dependencies.appConfig.swapiBaseUrl}/${path}`];
 
-    let resource = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const url of urls) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const resourceFromSwapi = await axios.get(url);
+        const { results, next } = resourceFromSwapi.data;
+        allResources.push(results);
 
-    try {
-      const resourceFromSwapi = await axios.get(url);
-      resource = resourceFromSwapi.data.results;
-    } catch (error) {
-      this.dependencies.logger.error(error as any);
-      throw new SwapiClientError(path);
+        if (next) {
+          urls.push(next);
+        }
+
+        if (allResources.length > 100) {
+          throw new SwapiClientLoopError(path);
+        }
+      } catch (error) {
+        this.dependencies.logger.error(error as any);
+        throw new SwapiClientError(path);
+      }
     }
 
-    return resource;
+    return allResources.flat();
   }
 }
