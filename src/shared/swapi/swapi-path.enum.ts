@@ -1,7 +1,7 @@
 export enum SwapiResource {
-  // PLANETS = "planets",
-  // PEOPLE = "people",
+  PLANETS = "planets",
   FILMS = "films",
   SPECIES = "species",
   VEHICLES = "vehicles",
+  STARSHIPS = "starships",
 }
