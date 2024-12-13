@@ -8,6 +8,8 @@ import {
 import { FilmEntity } from "../models/film.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
 import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
+import { CacheQuery } from "../../../../shared/cache-decorator";
+import { CacheDuration } from "../../../../shared/constants/cache.constant";
 
 export interface GetFilmDetailsDependencies {
   filmRepository: Repository<FilmEntity>;
@@ -20,6 +22,7 @@ export default class GetFilmDetailsQueryHandler
 
   public queryType: string = GET_FILM_DETAILS_QUERY_TYPE;
 
+  @CacheQuery({ duration: CacheDuration.GET_RESOURCE_DETAILS })
   async execute({ payload }: GetFilmDetailsQuery): Promise<GetFilmDetailsQueryResult> {
     const { id } = payload;
     const filmEntity = await this.dependencies.filmRepository.findOne({
