@@ -9,14 +9,14 @@ import { FilmEntity } from "../models/film.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
 import { SwapiResource } from "../../../../shared/swapi/swapi-path.enum";
 
-export interface GetFilmDependencies {
+export interface GetFilmDetailsDependencies {
   filmRepository: Repository<FilmEntity>;
 }
 
 export default class GetFilmDetailsQueryHandler
   implements QueryHandler<GetFilmDetailsQuery, GetFilmDetailsQueryResult>
 {
-  constructor(private dependencies: GetFilmDependencies) {}
+  constructor(private dependencies: GetFilmDetailsDependencies) {}
 
   public queryType: string = GET_FILM_DETAILS_QUERY_TYPE;
 

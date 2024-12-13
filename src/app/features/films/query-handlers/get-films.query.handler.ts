@@ -4,14 +4,14 @@ import { GET_FILMS_QUERY_TYPE, GetFilmsQuery, GetFilmsQueryResult } from "../que
 import { FilmEntity } from "../models/film.entity";
 import { makePaginationResult } from "../../../../shared/pagination-utils/pagination-utils";
 
-export interface GetFilmsDependenceis {
+export interface GetFilmsDependencies {
   filmRepository: Repository<FilmEntity>;
 }
 
 export default class GetFilmsQueryHandler implements QueryHandler<GetFilmsQuery, GetFilmsQueryResult> {
   public queryType: string = GET_FILMS_QUERY_TYPE;
 
-  constructor(private dependencies: GetFilmsDependenceis) {}
+  constructor(private dependencies: GetFilmsDependencies) {}
 
   async execute(query: GetFilmsQuery): Promise<GetFilmsQueryResult> {
     const { typeormMapperDTO } = query.payload;
