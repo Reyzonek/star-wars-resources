@@ -7,7 +7,7 @@ import {
 } from "../queries/get-film-details";
 import { FilmEntity } from "../models/film.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
-import { SwapiResource } from "../../../../shared/swapi/swapi-path.enum";
+import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
 
 export interface GetFilmDetailsDependencies {
   filmRepository: Repository<FilmEntity>;

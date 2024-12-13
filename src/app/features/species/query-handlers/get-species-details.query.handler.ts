@@ -7,7 +7,7 @@ import {
 } from "../queries/get-species-details";
 import { SpeciesEntity } from "../models/species.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
-import { SwapiResource } from "../../../../shared/swapi/swapi-path.enum";
+import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
 
 export interface GetSpeciesDetailsDependencies {
   speciesRepository: Repository<SpeciesEntity>;

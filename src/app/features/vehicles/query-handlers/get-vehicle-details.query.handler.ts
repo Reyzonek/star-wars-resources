@@ -7,7 +7,7 @@ import {
 } from "../queries/get-vehicle-details";
 import { VehicleEntity } from "../models/vehicle.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
-import { SwapiResource } from "../../../../shared/swapi/swapi-path.enum";
+import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
 
 export interface GetVehicleDetailsDependencies {
   vehicleRepository: Repository<VehicleEntity>;

@@ -7,7 +7,7 @@ import {
 } from "../queries/get-starship-details";
 import { StarshipEntity } from "../models/starship.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
-import { SwapiResource } from "../../../../shared/swapi/swapi-path.enum";
+import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
 
 export interface GetStarshipDetailsDependencies {
   starshipRepository: Repository<StarshipEntity>;

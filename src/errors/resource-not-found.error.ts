@@ -1,4 +1,4 @@
-import { SwapiResource } from "../shared/swapi/swapi-path.enum";
+import { SwapiResource } from "../shared/constants/swapi-resource.enum";
 import { HttpError } from "./http.error";
 
 export class ResourceNotFoundError extends HttpError {
