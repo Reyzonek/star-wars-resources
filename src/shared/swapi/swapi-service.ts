@@ -3,7 +3,7 @@ import { Logger } from "@tshio/logger";
 import { Repository } from "typeorm";
 import { AppConfig } from "../../config/app";
 import { SwapiClient } from "./swapi-client";
-import { SwapiResource } from "./swapi-path.enum";
+import { SwapiResource } from "../constants/swapi-resource.enum";
 import { FilmEntity } from "../../app/features/films/models/film.entity";
 import { IdNotFoundError } from "../../errors/id-not-found-error";
 import { SpeciesEntity } from "../../app/features/species/models/species.entity";

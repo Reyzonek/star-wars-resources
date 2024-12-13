@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Logger } from "@tshio/logger";
 import { AppConfig } from "../../config/app";
-import { SwapiResource } from "./swapi-path.enum";
+import { SwapiResource } from "../constants/swapi-resource.enum";
 import { SwapiClientError } from "../../errors/swapi-client.error";
 import { SwapiClientLoopError } from "../../errors/swapi-client-loop.error";
 
