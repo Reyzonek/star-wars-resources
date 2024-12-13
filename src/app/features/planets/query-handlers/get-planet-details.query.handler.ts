@@ -29,6 +29,7 @@ export default class GetPlanetDetailsQueryHandler
     if (!planetEntity) {
       throw new ResourceNotFoundError(SwapiResource.PLANETS, id);
     }
+
     return new GetPlanetDetailsQueryResult(planetEntity);
   }
 }
