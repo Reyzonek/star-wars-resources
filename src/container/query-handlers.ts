@@ -8,6 +8,7 @@ import GetStarshipsQueryHandler from "../app/features/starships/query-handlers/g
 import GetVehiclesQueryHandler from "../app/features/vehicles/query-handlers/get-vehicles.query.handler";
 import GetFilmDetailsQueryHandler from "../app/features/films/query-handlers/get-film-details.query.handler";
 import GetPlanetDetailsQueryHandler from "../app/features/planets/query-handlers/get-planet-details.query.handler";
+import GetSpeciesDetailsQueryHandler from "../app/features/species/query-handlers/get-species-details.query.handler";
 // HANDLERS_IMPORTS
 
 export async function registerQueryHandlers(container: AwilixContainer) {
@@ -20,6 +21,7 @@ export async function registerQueryHandlers(container: AwilixContainer) {
       asClass(GetVehiclesQueryHandler),
       asClass(GetFilmDetailsQueryHandler),
       asClass(GetPlanetDetailsQueryHandler),
+      asClass(GetSpeciesDetailsQueryHandler),
       // QUERY_HANDLERS_SETUP
     ]),
   });
