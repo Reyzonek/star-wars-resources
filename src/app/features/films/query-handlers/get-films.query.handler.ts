@@ -3,6 +3,8 @@ import { Repository } from "typeorm";
 import { GET_FILMS_QUERY_TYPE, GetFilmsQuery, GetFilmsQueryResult } from "../queries/get-films";
 import { FilmEntity } from "../models/film.entity";
 import { makePaginationResult } from "../../../../shared/pagination-utils/pagination-utils";
+import { CacheQuery } from "../../../../shared/cache-decorator";
+import { CacheDuration } from "../../../../shared/constants/cache.constant";
 
 export interface GetFilmsDependencies {
   filmRepository: Repository<FilmEntity>;
@@ -13,6 +15,7 @@ export default class GetFilmsQueryHandler implements QueryHandler<GetFilmsQuery,
 
   constructor(private dependencies: GetFilmsDependencies) {}
 
+  @CacheQuery({ duration: CacheDuration.GET_RESOURCE_LIST })
   async execute(query: GetFilmsQuery): Promise<GetFilmsQueryResult> {
     const { typeormMapperDTO } = query.payload;
 

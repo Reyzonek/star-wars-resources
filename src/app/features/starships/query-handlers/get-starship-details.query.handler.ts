@@ -8,6 +8,8 @@ import {
 import { StarshipEntity } from "../models/starship.entity";
 import { ResourceNotFoundError } from "../../../../errors/resource-not-found.error";
 import { SwapiResource } from "../../../../shared/constants/swapi-resource.enum";
+import { CacheQuery } from "../../../../shared/cache-decorator";
+import { CacheDuration } from "../../../../shared/constants/cache.constant";
 
 export interface GetStarshipDetailsDependencies {
   starshipRepository: Repository<StarshipEntity>;
@@ -20,6 +22,7 @@ export default class GetStarshipDetailsQueryHandler
 
   constructor(private dependencies: GetStarshipDetailsDependencies) {}
 
+  @CacheQuery({ duration: CacheDuration.GET_RESOURCE_DETAILS })
   async execute({ payload }: GetStarshipDetailsQuery): Promise<GetStarshipDetailsQueryResult> {
     const { id } = payload;
     const starshipEntity = await this.dependencies.starshipRepository.findOne({
