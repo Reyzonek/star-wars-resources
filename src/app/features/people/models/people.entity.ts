@@ -1,17 +1,20 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
-interface FilmEntityProps {
+interface PeopleEntityProps {
   id: number;
-  title: string;
-  episode_id: number;
-  opening_crawl: string;
-  director: string;
-  producer: string;
-  release_date: Date;
+  name: string;
+  birth_year: string;
+  eye_color: string;
+  gender: string;
+  hair_color: string;
+  height: string;
+  mass: string;
+  skin_color: string;
+  homeworld: string;
+  films: string[];
   species: string[];
+  starships: string[];
   vehicles: string[];
-  characters: string[];
-  planets: string[];
   url: string;
   created: Date;
   edited: Date;
@@ -20,11 +23,11 @@ interface FilmEntityProps {
 }
 
 @Entity({
-  name: "film",
+  name: "people",
 })
-export class FilmEntity {
-  public static create(data: Partial<FilmEntityProps>): FilmEntity {
-    const entity = new FilmEntity();
+export class PeopleEntity {
+  public static create(data: Partial<PeopleEntityProps>): PeopleEntity {
+    const entity = new PeopleEntity();
     Object.assign(entity, data);
     return entity;
   }
@@ -33,22 +36,37 @@ export class FilmEntity {
   id: number;
 
   @Column()
-  episode_id: number;
+  name: string;
 
   @Column()
-  title: string;
+  birth_year: string;
 
   @Column()
-  opening_crawl: string;
+  eye_color: string;
 
   @Column()
-  director: string;
+  gender: string;
 
   @Column()
-  producer: string;
+  hair_color: string;
 
   @Column()
-  release_date: Date;
+  height: string;
+
+  @Column()
+  mass: string;
+
+  @Column()
+  skin_color: string;
+
+  @Column()
+  homeworld: string;
+
+  @Column({
+    type: "text",
+    array: true,
+  })
+  films: string[];
 
   @Column({
     type: "text",
@@ -67,18 +85,6 @@ export class FilmEntity {
     array: true,
   })
   vehicles: string[];
-
-  @Column({
-    type: "text",
-    array: true,
-  })
-  characters: string[];
-
-  @Column({
-    type: "text",
-    array: true,
-  })
-  planets: string[];
 
   @Column({ unique: true })
   url: string;
