@@ -1,6 +1,11 @@
 import schedule from "node-schedule";
 import { Logger } from "@tshio/logger";
 import { Repository } from "typeorm";
+import GetFilmDetailsQueryHandler from "../../app/features/films/query-handlers/get-film-details.query.handler";
+import GetPlanetsQueryHandler from "../../app/features/planets/query-handlers/get-planets.query.handler";
+import GetPlanetDetailsQueryHandler from "../../app/features/planets/query-handlers/get-planet-details.query.handler";
+import GetSpeciesQueryHandler from "../../app/features/species/query-handlers/get-species.query.handler";
+import GetSpeciesDetailsQueryHandler from "../../app/features/species/query-handlers/get-species-details.query.handler";
 import { AppConfig } from "../../config/app";
 import { SwapiClient } from "./swapi-client";
 import { SwapiResource } from "../constants/swapi-resource.enum";
@@ -10,6 +15,12 @@ import { SpeciesEntity } from "../../app/features/species/models/species.entity"
 import { VehicleEntity } from "../../app/features/vehicles/models/vehicle.entity";
 import { StarshipEntity } from "../../app/features/starships/models/starship.entity";
 import { PlanetEntity } from "../../app/features/planets/models/planet.entity";
+import { flushCachedQueries } from "../cache-decorator/flush-query-cache-decorator";
+import GetFilmsQueryHandler from "../../app/features/films/query-handlers/get-films.query.handler";
+import GetStarshipsQueryHandler from "../../app/features/starships/query-handlers/get-starships.query.handler";
+import GetStarshipDetailsQueryHandler from "../../app/features/starships/query-handlers/get-starship-details.query.handler";
+import GetVehiclesQueryHandler from "../../app/features/vehicles/query-handlers/get-vehicles.query.handler";
+import GetVehicleDetailsQueryHandler from "../../app/features/vehicles/query-handlers/get-vehicle-details.query.handler";
 
 interface SwapiServiceDependencies {
   swapiClient: SwapiClient;
@@ -36,6 +47,21 @@ export class SwapiService {
         this.getAndSaveStarships(),
         this.getAndSavePlanets(),
       ]);
+
+      await flushCachedQueries({
+        handlers: [
+          GetFilmsQueryHandler,
+          GetFilmDetailsQueryHandler,
+          GetPlanetsQueryHandler,
+          GetPlanetDetailsQueryHandler,
+          GetSpeciesQueryHandler,
+          GetSpeciesDetailsQueryHandler,
+          GetStarshipsQueryHandler,
+          GetStarshipDetailsQueryHandler,
+          GetVehiclesQueryHandler,
+          GetVehicleDetailsQueryHandler,
+        ],
+      });
     });
   }
 
