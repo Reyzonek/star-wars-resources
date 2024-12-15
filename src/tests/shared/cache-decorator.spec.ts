@@ -4,7 +4,7 @@ import { QueryHandler } from "@tshio/query-bus";
 import { CommandHandler } from "@tshio/command-bus";
 import { CacheClient } from "../../tools/cache-client";
 import { CacheQuery } from "../../shared/cache-decorator";
-import { FlushCachedQueries } from "../../shared/cache-decorator/flush-query-cache-decorator";
+import { flushCachedQueries } from "../../shared/cache-decorator/flush-query-cache-decorator";
 
 interface CacheExampleQuery {
   id: number;
@@ -42,8 +42,8 @@ class CacheExampleWithTTLQueryHandler implements QueryHandler<any, any> {
 class CacheExampleCommandHandler implements CommandHandler<any> {
   commandType = "example-command";
 
-  @FlushCachedQueries({ handlers: [CacheExampleQueryHandler] })
   async execute() {
+    await flushCachedQueries({ handlers: [CacheExampleQueryHandler] });
     return {};
   }
 }

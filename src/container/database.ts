@@ -2,6 +2,12 @@ import { AwilixContainer, asValue } from "awilix";
 import { Logger } from "winston";
 import { ContainerDependencies } from "../container";
 import { dataSource } from "../config/db";
+import { FilmEntity } from "../app/features/films/models/film.entity";
+import { SpeciesEntity } from "../app/features/species/models/species.entity";
+import { VehicleEntity } from "../app/features/vehicles/models/vehicle.entity";
+import { StarshipEntity } from "../app/features/starships/models/starship.entity";
+import { PlanetEntity } from "../app/features/planets/models/planet.entity";
+import { PeopleEntity } from "../app/features/people/models/people.entity";
 // MODELS_IMPORTS
 
 export async function registerDatabase(container: AwilixContainer, dependencies?: ContainerDependencies) {
@@ -16,6 +22,12 @@ export async function registerDatabase(container: AwilixContainer, dependencies?
   }
   container.register({
     dbDataSource: asValue(dbDataSource),
+    filmRepository: asValue(dbDataSource.getRepository(FilmEntity)),
+    speciesRepository: asValue(dbDataSource.getRepository(SpeciesEntity)),
+    vehicleRepository: asValue(dbDataSource.getRepository(VehicleEntity)),
+    starshipRepository: asValue(dbDataSource.getRepository(StarshipEntity)),
+    planetRepository: asValue(dbDataSource.getRepository(PlanetEntity)),
+    peopleRepository: asValue(dbDataSource.getRepository(PeopleEntity)),
     // MODELS_SETUP
   });
 }
