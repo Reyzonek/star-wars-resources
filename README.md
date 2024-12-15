@@ -1,3 +1,6 @@
+### About
+
+App will save in local DB all resources from Swapi with cron job. It refetches resources every minute, so DB should be filled with data within one minute. 
 ### Configuration
 
 After checkout of a repository, please perform the following steps in exact sequence:
@@ -12,8 +15,6 @@ After checkout of a repository, please perform the following steps in exact sequ
     $ cp .env.dist .env
     ```
 
-    Remember to fill up required values in `.env`
-
 3. Run `npm i`
 
 4. Run `npm run docker-build`
@@ -25,18 +26,21 @@ After checkout of a repository, please perform the following steps in exact sequ
 ### Dev setup
 
 This app is fully dockerized, so in order to use it you have to have docker and docker-compose installed. What's more you need to have npm in order to run npm scripts.
+Run:
 
-1. In order to run the whole app type:
+1. Watch files
+
+    ```
+    npm run watch
+    ```
+
+2. In order to run the whole app type:
 
     ```
     npm run start
     ```
 
-2. In order to watch files for dev purpose type:
 
-    ```
-    npm run watch
-    ```
 
 3. If you need to close all containers run:
 
@@ -65,19 +69,9 @@ Database: app
 
 Of course, if any of this is changed via configuration or otherwise, then these changes must be reflected here as well.
 
-##
-
-### Debugging
-
-#### VS Code
-
-There is `launch.json` configuration inside `editors/vsc` directory. Just copy it and create new debugger to make it work with vsc
-
-##
-
 ### Tests
 
-There are two types of tests:
+There are two types of tests. App need to be launched to run them. 
 
 - integration: `npm run integration`
 - units: `npm run units`

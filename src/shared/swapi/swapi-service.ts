@@ -21,6 +21,7 @@ import GetStarshipsQueryHandler from "../../app/features/starships/query-handler
 import GetStarshipDetailsQueryHandler from "../../app/features/starships/query-handlers/get-starship-details.query.handler";
 import GetVehiclesQueryHandler from "../../app/features/vehicles/query-handlers/get-vehicles.query.handler";
 import GetVehicleDetailsQueryHandler from "../../app/features/vehicles/query-handlers/get-vehicle-details.query.handler";
+import { PeopleEntity } from "../../app/features/people/models/people.entity";
 
 interface SwapiServiceDependencies {
   swapiClient: SwapiClient;
@@ -31,6 +32,7 @@ interface SwapiServiceDependencies {
   vehicleRepository: Repository<VehicleEntity>;
   starshipRepository: Repository<StarshipEntity>;
   planetRepository: Repository<PlanetEntity>;
+  peopleRepository: Repository<PeopleEntity>;
 }
 
 export class SwapiService {
@@ -39,13 +41,14 @@ export class SwapiService {
   public async sheduleGetAndSaveSwapiResources(): Promise<void> {
     const { appConfig } = this.dependencies;
 
-    schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
+    const job = schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
       await Promise.all([
         this.getAndSaveFilms(),
         this.getAndSaveSpecies(),
         this.getAndSaveVehicles(),
         this.getAndSaveStarships(),
         this.getAndSavePlanets(),
+        this.getAndSavePeople(),
       ]);
 
       await flushCachedQueries({
@@ -62,6 +65,10 @@ export class SwapiService {
           GetVehicleDetailsQueryHandler,
         ],
       });
+    });
+
+    job.on("error", (error) => {
+      this.dependencies.logger.error("Error in scheduled job:", error);
     });
   }
 
@@ -130,6 +137,22 @@ export class SwapiService {
   }
 
   private async getAndSavePlanets(): Promise<void> {
+    const { swapiClient, logger, peopleRepository } = this.dependencies;
+
+    const peopleFromSwapi: PeopleEntity[] = await swapiClient.get(SwapiResource.PEOPLE);
+
+    const peopleEntities = peopleFromSwapi.map((people: any) =>
+      PeopleEntity.create({
+        ...people,
+        id: this.getIdFromUrl(people.url),
+      }),
+    );
+
+    await peopleRepository.save(peopleEntities);
+    logger.info(`Saved people: ${peopleEntities.map((planet) => planet.name).join(", ")}`);
+  }
+
+  private async getAndSavePeople(): Promise<void> {
     const { swapiClient, logger, planetRepository } = this.dependencies;
 
     const planetsFromSwapi: PlanetEntity[] = await swapiClient.get(SwapiResource.PLANETS);

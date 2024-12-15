@@ -4,4 +4,5 @@ export enum SwapiResource {
   SPECIES = "species",
   VEHICLES = "vehicles",
   STARSHIPS = "starships",
+  PEOPLE = "people",
 }

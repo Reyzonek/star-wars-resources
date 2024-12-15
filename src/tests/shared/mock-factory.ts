@@ -5,6 +5,7 @@ import { PlanetEntity } from "../../app/features/planets/models/planet.entity";
 import { SpeciesEntity } from "../../app/features/species/models/species.entity";
 import { StarshipEntity } from "../../app/features/starships/models/starship.entity";
 import { VehicleEntity } from "../../app/features/vehicles/models/vehicle.entity";
+import { PeopleEntity } from "../../app/features/people/models/people.entity";
 
 export class MockFactory {
   private filmsToBeMocked: FilmEntity[] = [];
@@ -16,6 +17,8 @@ export class MockFactory {
   private starshipsToBeMocked: StarshipEntity[] = [];
 
   private vehiclesToBeMocked: VehicleEntity[] = [];
+
+  private peopleToBeMocked: PeopleEntity[] = [];
 
   constructor(private container: AwilixContainer) {}
 
@@ -45,6 +48,36 @@ export class MockFactory {
       });
 
     return this.filmsToBeMocked;
+  }
+
+  public createPeople(numberOfPeople: number): PeopleEntity[] {
+    Array(numberOfPeople)
+      .fill("")
+      .forEach((item, id) => {
+        this.peopleToBeMocked.push(
+          PeopleEntity.create({
+            id,
+            name: `Name #${id}`,
+            birth_year: `birth_year #${id}`,
+            eye_color: `eye_color #${id}`,
+            gender: `gender #${id}`,
+            hair_color: `hair_color #${id}`,
+            height: `height #${id}`,
+            mass: `mass #${id}`,
+            skin_color: `skin_color #${id}`,
+            homeworld: `homeworld #${id}`,
+            films: [`films #${id}`],
+            species: [`species #${id}`],
+            starships: [`starships #${id}`],
+            vehicles: [`vehicles #${id}`],
+            url: `Url #${id}`,
+            created: DateTime.now().toISODate(),
+            edited: DateTime.now().toISODate(),
+          }),
+        );
+      });
+
+    return this.peopleToBeMocked;
   }
 
   public createVehicles(numberOfVehicles: number): VehicleEntity[] {
@@ -170,6 +203,7 @@ export class MockFactory {
     await this.container.cradle.speciesRepository.save(this.speciesToBeMocked);
     await this.container.cradle.vehicleRepository.save(this.vehiclesToBeMocked);
     await this.container.cradle.starshipRepository.save(this.starshipsToBeMocked);
+    await this.container.cradle.peopleRepository.save(this.peopleToBeMocked);
   }
 
   public async clearDatabase() {
@@ -178,5 +212,6 @@ export class MockFactory {
     await this.container.cradle.speciesRepository.delete({});
     await this.container.cradle.vehicleRepository.delete({});
     await this.container.cradle.starshipRepository.delete({});
+    await this.container.cradle.peopleRepository.delete({});
   }
 }
