@@ -7,16 +7,17 @@ interface FilmEntityProps {
   opening_crawl: string;
   director: string;
   producer: string;
-  release_date: Date;
+  release_date: string;
   species: string[];
   vehicles: string[];
   characters: string[];
+  starships: string[];
   planets: string[];
   url: string;
-  created: Date;
-  edited: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  created: string;
+  edited: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Entity({
@@ -48,7 +49,7 @@ export class FilmEntity {
   producer: string;
 
   @Column()
-  release_date: Date;
+  release_date: string;
 
   @Column({
     type: "text",
@@ -60,7 +61,7 @@ export class FilmEntity {
     type: "text",
     array: true,
   })
-  starships: string;
+  starships: string[];
 
   @Column({
     type: "text",
@@ -84,14 +85,14 @@ export class FilmEntity {
   url: string;
 
   @Column()
-  created: Date;
+  created: string;
 
   @Column()
-  edited: Date;
+  edited: string;
 
   @CreateDateColumn({ name: "created_at" })
-  createdAt: Date;
+  createdAt: string;
 
   @UpdateDateColumn({ name: "updated_at" })
-  updatedAt: Date;
+  updatedAt: string;
 }

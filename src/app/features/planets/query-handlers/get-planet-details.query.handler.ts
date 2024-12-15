@@ -33,6 +33,6 @@ export default class GetPlanetDetailsQueryHandler
       throw new ResourceNotFoundError(SwapiResource.PLANETS, id);
     }
 
-    return new GetPlanetDetailsQueryResult(planetEntity);
+    return new GetPlanetDetailsQueryResult({ planet: planetEntity });
   }
 }
