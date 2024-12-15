@@ -33,6 +33,6 @@ export default class GetStarshipDetailsQueryHandler
       throw new ResourceNotFoundError(SwapiResource.STARSHIPS, id);
     }
 
-    return new GetStarshipDetailsQueryResult(starshipEntity);
+    return new GetStarshipDetailsQueryResult({ starship: starshipEntity });
   }
 }

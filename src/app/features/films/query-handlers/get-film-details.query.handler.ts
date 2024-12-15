@@ -33,6 +33,6 @@ export default class GetFilmDetailsQueryHandler
       throw new ResourceNotFoundError(SwapiResource.FILMS, id);
     }
 
-    return new GetFilmDetailsQueryResult(filmEntity);
+    return new GetFilmDetailsQueryResult({ film: filmEntity });
   }
 }

@@ -33,6 +33,6 @@ export default class GetSpeciesDetailsQueryHandler
       throw new ResourceNotFoundError(SwapiResource.SPECIES, id);
     }
 
-    return new GetSpeciesDetailsQueryResult(speciesEntity);
+    return new GetSpeciesDetailsQueryResult({ species: speciesEntity });
   }
 }
