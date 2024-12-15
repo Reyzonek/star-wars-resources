@@ -15,10 +15,10 @@ interface VehicleEntityProps {
   films: string[];
   pilots: string[];
   url: string;
-  created: Date;
-  edited: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  created: string;
+  edited: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Entity({

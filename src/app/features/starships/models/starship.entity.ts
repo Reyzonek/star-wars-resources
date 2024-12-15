@@ -20,8 +20,8 @@ interface StarshipEntityProps {
   url: string;
   created: string;
   edited: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Entity({

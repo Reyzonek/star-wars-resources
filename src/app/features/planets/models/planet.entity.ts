@@ -15,8 +15,8 @@ interface PlanetEntityProps {
   url: string;
   created: string;
   edited: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Entity({
@@ -75,8 +75,8 @@ export class PlanetEntity {
   edited: string;
 
   @CreateDateColumn({ name: "created_at" })
-  createdAt: Date;
+  createdAt: string;
 
   @UpdateDateColumn({ name: "updated_at" })
-  updatedAt: Date;
+  updatedAt: string;
 }

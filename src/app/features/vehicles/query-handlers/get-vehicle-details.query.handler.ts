@@ -32,6 +32,6 @@ export default class GetVehicleDetailsQueryHandler
     if (!vehicleEntity) {
       throw new ResourceNotFoundError(SwapiResource.VEHICLES, id);
     }
-    return new GetVehicleDetailsQueryResult(vehicleEntity);
+    return new GetVehicleDetailsQueryResult({ vehicle: vehicleEntity });
   }
 }
