@@ -41,7 +41,7 @@ export class SwapiService {
   public async sheduleGetAndSaveSwapiResources(): Promise<void> {
     const { appConfig } = this.dependencies;
 
-    schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
+    const job = schedule.scheduleJob(appConfig.getSwapiResourceScheduleTime, async () => {
       await Promise.all([
         this.getAndSaveFilms(),
         this.getAndSaveSpecies(),
@@ -65,6 +65,10 @@ export class SwapiService {
           GetVehicleDetailsQueryHandler,
         ],
       });
+    });
+
+    job.on("error", (error) => {
+      this.dependencies.logger.error("Error in scheduled job:", error);
     });
   }
 
