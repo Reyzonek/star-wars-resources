@@ -16,10 +16,10 @@ interface PeopleEntityProps {
   starships: string[];
   vehicles: string[];
   url: string;
-  created: Date;
-  edited: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  created: string;
+  edited: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Entity({
