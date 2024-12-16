@@ -1,0 +1,8 @@
+in: query
+name: limit
+required: false
+schema:
+  type: number
+  minimum: 1
+description: Describes the limit of items per page.
+

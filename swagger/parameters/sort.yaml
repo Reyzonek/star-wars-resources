@@ -1,0 +1,12 @@
+in: query
+name: sort
+required: false
+schema:
+  type: object
+  properties:
+    name:
+      type: string
+      example: ASC
+style: deepObject
+explode: true
+description: An array of sorts, result by fields. sort[field] = ASC | DESC

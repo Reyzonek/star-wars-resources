@@ -1,0 +1,17 @@
+      type: object
+      properties:
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            limit:
+              type: integer
+              example: 2
+            total:
+              type: integer
+              example: 1
+            totalPages:
+              type: integer
+              example: 1

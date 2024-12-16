@@ -1,0 +1,51 @@
+type: object
+properties:
+  id:
+    type: string
+    example: "1"
+  name:
+    type: string
+    example: "Tatooine"
+  rotation_period:
+    type: string
+    example: "23"
+  orbital_period:
+    type: string
+    example: "304"
+  diameter:
+    type: string
+    example: "10465"
+  climate:
+    type: string
+    example: "arid"
+  gravity:
+    type: string
+    example: "1 standard"
+  terrain:
+    type: string
+    example: "desert"
+  surface_water:
+    type: string
+    example: "1"
+  population:
+    type: string
+    example: "200000"
+  residents:
+    type: array
+    items:
+      type: string
+    example: ["Luke Skywalker", "Anakin Skywalker"]
+  films:
+    type: array
+    items:
+      type: string
+    example: ["A New Hope", "The Phantom Menace"]
+  created:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  edited:
+    type: string
+    example: "2024-12-17T12:00:00Z"
+  url:
+    type: string
+    example: "https://swapi.dev/api/planets/1/"

@@ -1,0 +1,53 @@
+type: object
+properties:
+  id:
+    type: string
+    example: "1"
+  title:
+    type: string
+    example: "A New Hope"
+  episode_id:
+    type: number
+    example: 4
+  opening_crawl: 
+    type: string
+    example: "It is a period of civil war. Rebel spaceships, striking from a hidden base..."
+  director:
+    type: string
+    example: "George Lucas"
+  producer:
+    type: string
+    example: "Gary Kurtz, Rick McCallum"
+  release_date:
+    type: string
+    example: "1977-05-25"
+  species:
+    type: string
+    example: "[\"Human\", \"Droid\", \"Wookie\"]"
+  vehicles:
+    type: string
+    example: "[\"Sand Crawler\", \"T-16 Skyhopper\"]"
+  characters:
+    type: string
+    example: "[\"Luke Skywalker\", \"Darth Vader\", \"Leia Organa\"]"
+  starships:
+    type: string
+    example: "[\"X-wing\", \"TIE Advanced x1\", \"Millennium Falcon\"]"
+  planets:
+    type: string
+    example: "[\"Tatooine\", \"Alderaan\", \"Yavin IV\"]"
+  url: 
+    type: string
+    example: "https://swapi.dev/api/films/1/"
+  created:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  edited:
+    type: string
+    example: "2024-12-17T12:00:00Z"
+  createdAt:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  updatedAt:
+    type: string
+    example: "2024-12-17T12:00:00Z"

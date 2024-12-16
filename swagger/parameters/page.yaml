@@ -1,0 +1,8 @@
+in: query
+name: page
+required: false
+schema:
+  type: number
+  minimum: 1
+description: Describes the page of pagination.
+
