@@ -1,0 +1,64 @@
+
+type: object
+properties:
+  id:
+    type: string
+    example: "1"
+  name:
+    type: string
+    example: "X-wing"
+  model:
+    type: string
+    example: "T-65 X-wing starfighter"
+  manufacturer:
+    type: string
+    example: "Incom Corporation"
+  cost_in_credits:
+    type: string
+    example: "149999"
+  length:
+    type: string
+    example: "12.5"
+  max_atmosphering_speed:
+    type: string
+    example: "1050"
+  crew:
+    type: string
+    example: "1"
+  passengers:
+    type: string
+    example: "0"
+  cargo_capacity:
+    type: string
+    example: "110"
+  consumables:
+    type: string
+    example: "1 week"
+  hyperdrive_rating:
+    type: string
+    example: "1.0"
+  MGLT:
+    type: string
+    example: "100"
+  starship_class:
+    type: string
+    example: "Starfighter"
+  pilots:
+    type: array
+    items:
+      type: string
+    example: ["Luke Skywalker", "Wedge Antilles"]
+  films:
+    type: array
+    items:
+      type: string
+    example: ["A New Hope", "The Empire Strikes Back"]
+  created:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  edited:
+    type: string
+    example: "2024-12-17T12:00:00Z"
+  url:
+    type: string
+    example: "https://swapi.dev/api/starships/1/"
