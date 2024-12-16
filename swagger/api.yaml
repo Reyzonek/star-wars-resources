@@ -1,106 +1,335 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Boilerplate example API
+  title: Star Wars Resources API
 servers:
   - url: http://localhost:1337/api
+
+tags:
+  - name: films
+    description: API endpoints related to films resources
+  - name: vehicles
+    description: API endpoints related to vehicles resources
+  - name: planets
+    description: API endpoints related to planets resources
+  - name: species
+    description: API endpoints related to species resources
+  - name: starships
+    description: API endpoints related to starships resources
+
 paths:
-  /example/login:
-    post:
-      summary: Example login
-      operationId: loginUsers
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                authToken:
-                  type: string
-                  required: true
-              example:
-                authToken: SomeAuthTokenExample
+  /films:
+    get: 
+      summary: Get list of films
       tags:
-        - example
-      responses:
-        '200':
-          description: Login successed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/LoginSucceed"
-        '400':
-          description: Validation error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error400"
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorDefault"
-  /example/users:
-    get:
-      summary: Example method, list all users
-      operationId: listUsers
-      tags:
-        - example
+        - films
       parameters:
-      - in: query
-        name: page
-        schema:
-          type: string
-        description: Describes the page of pagination.
-      - in: query
-        name: limit
-        schema:
-          type: string
-        description: Describes the limit of items per page.
-      - in: query
-        name: sort
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: ASC
-        description: Defines order of items.
-      - in: query
-        name: filter
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              example: john@doe.com
-        description: Defines filter of items.
+        - $ref: '#components/schemas/Page'
+        - $ref: '#components/schemas/Limit'
+        - $ref: '#components/schemas/Filter'
+        - $ref: '#components/schemas/Sort'
       responses:
         '200':
-          description: Array of users
+          description: List of paginated films 
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        default:
-          description: Unexpected error
+                allOf:
+                - $ref: "#/components/schemas/Pagination"
+                - type: object
+                  properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Film"
+ 
+  /films/{id}:
+    get: 
+      summary: Get film details
+      tags:
+        - films
+      parameters:
+      - $ref: '#components/schemas/id'
+      responses:
+        '200':
+          description: Film details
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorDefault"
+                type: object
+                properties:
+                  film:
+                    $ref: "#/components/schemas/Film"
+        '404':
+          description: Film not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404" 
+
+  /films/words:
+    get: 
+      summary: Get words count and most mentioned character from opening crawls
+      tags:
+        - films
+      responses:
+        '200':
+          description: Words count and most mentioned character from opening crawls
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uniqueWords:
+                    type: object
+                    properties:
+                      it:
+                        type: number
+                        example: 13
+                      the:
+                        type: number
+                        example: 10
+                      rey:
+                        type: number
+                        example: 2
+                      planet:
+                        type: number
+                        example: 1
+                  mostMentioned:
+                    oneOf:
+                      - type: string
+                        example: Rey
+                      - type: array
+                        items:
+                          type: string
+                        example: ["Rey", "Luke", "Anakin"]
+
+  /planets:
+    get: 
+      summary: Get list of planets
+      tags:
+        - planets
+      parameters:
+        - $ref: '#components/schemas/Page'
+        - $ref: '#components/schemas/Limit'
+        - $ref: '#components/schemas/Filter'
+        - $ref: '#components/schemas/Sort'
+      responses:
+        '200':
+          description: List of paginated planets 
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: "#/components/schemas/Pagination"
+                - type: object
+                  properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Planet"
+
+  /planets/{id}:
+    get:
+      summary: Get planet details
+      tags:
+        - planets
+      parameters:
+      - $ref: '#components/schemas/id'
+      responses:
+        '200':
+          description: Planet details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  planet:
+                    $ref: "#/components/schemas/Planet"
+        '404':
+          description: Planet not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404" 
+
+  /starships:
+    get: 
+      summary: Get list of starships
+      tags:
+        - starships
+      parameters:
+        - $ref: '#components/schemas/Page'
+        - $ref: '#components/schemas/Limit'
+        - $ref: '#components/schemas/Filter'
+        - $ref: '#components/schemas/Sort'
+      responses:
+        '200':
+          description: List of paginated starships 
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: "#/components/schemas/Pagination"
+                - type: object
+                  properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Starship" 
+
+  /starships/{id}:
+    get:
+      summary: Get starship details
+      tags:
+        - starships
+      parameters:
+      - $ref: '#components/schemas/id'
+      responses:
+        '200':
+          description: Starship details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  starship:
+                    $ref: "#/components/schemas/Starship"
+        '404':
+          description: Starship not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404" 
+
+  /vehicles:
+    get: 
+      summary: Get list of vehicles
+      tags:
+        - vehicles
+      parameters:
+        - $ref: '#components/schemas/Page'
+        - $ref: '#components/schemas/Limit'
+        - $ref: '#components/schemas/Filter'
+        - $ref: '#components/schemas/Sort'
+      responses:
+        '200':
+          description: List of paginated vehicles 
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: "#/components/schemas/Pagination"
+                - type: object
+                  properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Vehicle"
+
+  /vehicles/{id}:
+    get:
+      summary: Get vehicle details
+      tags:
+        - vehicles
+      parameters:
+      - $ref: '#components/schemas/id'
+      responses:
+        '200':
+          description: Vehicle details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vehicle:
+                    $ref: "#/components/schemas/Vehicle"
+        '404':
+          description: Vehicle not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404"    
+
+  /species:
+    get: 
+      summary: Get list of species
+      tags:
+        - species
+      parameters:
+        - $ref: '#components/schemas/Page'
+        - $ref: '#components/schemas/Limit'
+        - $ref: '#components/schemas/Filter'
+        - $ref: '#components/schemas/Sort'
+      responses:
+        '200':
+          description: List of paginated species 
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: "#/components/schemas/Pagination"
+                - type: object
+                  properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Species"
+
+  /species/{id}:
+    get:
+      summary: Get species details
+      tags:
+        - species
+      parameters:
+      - $ref: '#components/schemas/id'
+      responses:
+        '200':
+          description: Species details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  species:
+                    $ref: "#/components/schemas/Species"    
+        '404':
+          description: Species not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error404"            
 
 components:
   schemas:
-    LoginSucceed:
-      $ref: 'schemas/login-succeed.yaml'
-    User:
-      $ref: 'schemas/user.yaml'
-    Users:
-      type: array
-      items:
-        $ref: "#/components/schemas/User"
+    Pagination:
+      $ref: 'schemas/pagination.yaml'
     ErrorDefault:
       $ref: 'schemas/error-default.yaml'
-    Error400:
-      $ref: 'schemas/error-400.yaml'
+    Error404:
+      $ref: 'schemas/error-404.yaml'
+    Film:
+      $ref: 'responses/film.yaml'
+    Planet:
+      $ref: 'responses/planet.yaml'
+    Species:
+      $ref: 'responses/species.yaml'
+    Vehicle:
+      $ref: 'responses/vehicle.yaml'
+    Starship:
+      $ref: 'responses/starship.yaml'
+    id: 
+      $ref: 'parameters/id.yaml'
+    Page:
+      $ref: 'parameters/page.yaml'
+    Limit:
+      $ref: 'parameters/limit.yaml'
+    Filter:
+      $ref: 'parameters/filter.yaml'
+    Relations:
+      $ref: 'parameters/relations.yaml'
+    Sort:
+      $ref: 'parameters/sort.yaml'
+    Variant:
+      $ref: 'parameters/variant.yaml'
+

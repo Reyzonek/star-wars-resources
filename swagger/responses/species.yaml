@@ -1,0 +1,54 @@
+type: object
+properties:
+  id:
+    type: string
+    example: "1"
+  name:
+    type: string
+    example: "Human"
+  classification:
+    type: string
+    example: "mammal"
+  designation:
+    type: string
+    example: "sentient"
+  average_height:
+    type: string
+    example: "180"
+  skin_colors:
+    type: string
+    example: "caucasian, black, asian, hispanic"
+  hair_colors:
+    type: string
+    example: "blonde, brown, black, red"
+  eye_colors:
+    type: string
+    example: "brown, blue, green, hazel, grey"
+  average_lifespan:
+    type: string
+    example: "120"
+  homeworld:
+    type: string
+    example: "Tatooine"
+  language:
+    type: string
+    example: "Galactic Basic"
+  people:
+    type: array
+    items:
+      type: string
+    example: ["Luke Skywalker", "Leia Organa"]
+  films:
+    type: array
+    items:
+      type: string
+    example: ["A New Hope", "The Empire Strikes Back"]
+  created:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  edited:
+    type: string
+    example: "2024-12-17T12:00:00Z"
+  url:
+    type: string
+    example: "https://swapi.dev/api/species/1/"

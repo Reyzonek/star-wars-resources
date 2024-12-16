@@ -1,0 +1,12 @@
+in: query
+name: filter
+required: false
+schema:
+  type: object
+  properties:
+    "[name][include]":
+      type: string
+      example: John
+style: deepObject
+explode: true
+description: An array of filter. filter[model.field][operator] = value

@@ -1,0 +1,57 @@
+type: object
+properties:
+  id:
+    type: string
+    example: "1"
+  name:
+    type: string
+    example: "Sand Crawler"
+  model:
+    type: string
+    example: "Digger Crawler"
+  manufacturer:
+    type: string
+    example: "Corellia Mining Corporation"
+  cost_in_credits:
+    type: string
+    example: "150000"
+  length:
+    type: string
+    example: "36.8"
+  max_atmosphering_speed:
+    type: string
+    example: "30"
+  crew:
+    type: string
+    example: "46"
+  passengers:
+    type: string
+    example: "30"
+  cargo_capacity:
+    type: string
+    example: "50000"
+  consumables:
+    type: string
+    example: "2 months"
+  vehicle_class:
+    type: string
+    example: "wheeled"
+  pilots:
+    type: array
+    items:
+      type: string
+    example: ["R2-D2"]
+  films:
+    type: array
+    items:
+      type: string
+    example: ["A New Hope"]
+  created:
+    type: string
+    example: "2024-12-16T12:00:00Z"
+  edited:
+    type: string
+    example: "2024-12-17T12:00:00Z"
+  url:
+    type: string
+    example: "https://swapi.dev/api/vehicles/1/"

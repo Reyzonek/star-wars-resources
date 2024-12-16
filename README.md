@@ -1,6 +1,7 @@
 ### About
 
 App will save in local DB all resources from Swapi with cron job. It refetches resources every minute, so DB should be filled with data within one minute. 
+
 ### Configuration
 
 After checkout of a repository, please perform the following steps in exact sequence:
@@ -71,9 +72,14 @@ Of course, if any of this is changed via configuration or otherwise, then these 
 
 ### Tests
 
-There are two types of tests. App need to be launched to run them. 
+Run app and use one of scripts:
 
 - integration: `npm run integration`
 - units: `npm run units`
+
+### Docs
+
+Run app and got to http://localhost:1337/api-docs/
+
 
 ##
