@@ -10,7 +10,7 @@ interface PlanetEntityProps {
   climate: string;
   terrain: string;
   surface_water: string;
-  residents: string;
+  residents: string[];
   films: string[];
   url: string;
   created: string;
@@ -32,7 +32,7 @@ export class PlanetEntity {
   @PrimaryColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -56,8 +56,11 @@ export class PlanetEntity {
   @Column()
   surface_water: string;
 
-  @Column()
-  residents: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  residents: string[];
 
   @Column({
     type: "text",
@@ -65,13 +68,13 @@ export class PlanetEntity {
   })
   films: string[];
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   url: string;
 
-  @Column()
+  @Column({ nullable: true })
   created: string;
 
-  @Column()
+  @Column({ nullable: true })
   edited: string;
 
   @CreateDateColumn({ name: "created_at" })

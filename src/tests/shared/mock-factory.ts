@@ -124,7 +124,7 @@ export class MockFactory {
             climate: `Climate ${id}`,
             terrain: `Terrain ${id}`,
             surface_water: `Surface ${id}`,
-            residents: `Residents ${id}`,
+            residents: [`Residents ${id}`],
             films: [`#${id}`],
             url: `Url #${id}`,
             created: DateTime.now().toISODate(),
