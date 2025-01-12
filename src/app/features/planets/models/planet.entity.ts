@@ -10,7 +10,7 @@ interface PlanetEntityProps {
   climate: string;
   terrain: string;
   surface_water: string;
-  residents: string;
+  residents: string[];
   films: string[];
   url: string;
   created: string;
@@ -56,8 +56,11 @@ export class PlanetEntity {
   @Column()
   surface_water: string;
 
-  @Column()
-  residents: string;
+  @Column({
+    type: "text",
+    array: true,
+  })
+  residents: string[];
 
   @Column({
     type: "text",
