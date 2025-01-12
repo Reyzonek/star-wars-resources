@@ -11,7 +11,7 @@ export interface PostPlanetCommandPayload {
   climate: string;
   terrain: string;
   surface_water: string;
-  residents: string;
+  residents: string[];
   films: string[];
 }
 

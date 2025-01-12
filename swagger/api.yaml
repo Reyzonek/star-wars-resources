@@ -169,7 +169,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error404" 
+                $ref: "#/components/schemas/Error404"
+
+    patch:
+      summary: Update planet
+      tags:
+        - planets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlanetBody"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Id of a planet
+      responses:
+        '200':
+          description: Planet updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Planet"
 
   /starships:
     get: 
