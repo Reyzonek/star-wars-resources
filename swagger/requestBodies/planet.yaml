@@ -2,7 +2,7 @@ type: object
 properties:
   name:
     type: string
-    example: "Tatooine"
+    example: "Some planet"
   orbital_period:
     type: string
     example: "304"
