@@ -136,7 +136,7 @@ export class SwapiService {
     logger.info(`Saved starships: ${starshipsEntities.map((starship) => starship.name).join(", ")}`);
   }
 
-  private async getAndSavePlanets(): Promise<void> {
+  private async getAndSavePeople(): Promise<void> {
     const { swapiClient, logger, peopleRepository } = this.dependencies;
 
     const peopleFromSwapi: PeopleEntity[] = await swapiClient.get(SwapiResource.PEOPLE);
@@ -152,7 +152,7 @@ export class SwapiService {
     logger.info(`Saved people: ${peopleEntities.map((planet) => planet.name).join(", ")}`);
   }
 
-  private async getAndSavePeople(): Promise<void> {
+  private async getAndSavePlanets(): Promise<void> {
     const { swapiClient, logger, planetRepository } = this.dependencies;
 
     const planetsFromSwapi: PlanetEntity[] = await swapiClient.get(SwapiResource.PLANETS);
