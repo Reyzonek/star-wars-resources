@@ -38,8 +38,7 @@ class PostPlanetAction implements Action {
       }),
     );
 
-    res.json(commandResult.planet);
-    res.status(StatusCodes.CREATED);
+    res.status(StatusCodes.CREATED).json(commandResult.planet);
   }
 }
 export default PostPlanetAction;
