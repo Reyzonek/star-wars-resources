@@ -22,4 +22,13 @@ export class PlanetRepository extends Repository<PlanetEntity> {
 
     return planetEntity;
   }
+
+  public async getHighestCustomPlanetId(): Promise<number | undefined> {
+    const planetEntitiy = await this.createQueryBuilder("planet")
+      .select("MAX(planet.id)", "id")
+      .where(`id >= ${process.env.MIN_CUSTOM_PLANET_ID}`)
+      .getRawOne();
+
+    return planetEntitiy?.id;
+  }
 }

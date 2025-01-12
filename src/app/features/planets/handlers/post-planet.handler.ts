@@ -1,13 +1,15 @@
 import { CommandHandler } from "@tshio/command-bus";
 import { Logger } from "@tshio/logger";
-import { Repository } from "typeorm";
+import { AppConfig } from "../../../../config/app";
 import { POST_PLANET_COMMAND_TYPE, PostPlanetCommand } from "../commands/post-planet.command";
 import { PlanetEntity } from "../models/planet.entity";
 import { PlanetAlreadyExistsError } from "../../../../errors/planet-already-exists.error";
+import { PlanetRepository } from "../repositories/planet.repository";
 
 export interface PostPlanetHandlerDependencies {
   logger: Logger;
-  planetRepository: Repository<PlanetEntity>;
+  planetRepository: PlanetRepository;
+  appConfig: AppConfig;
 }
 
 export default class PostPlanetHandler implements CommandHandler<PostPlanetCommand> {
@@ -16,27 +18,21 @@ export default class PostPlanetHandler implements CommandHandler<PostPlanetComma
   constructor(private dependencies: PostPlanetHandlerDependencies) {}
 
   async execute({ payload }: PostPlanetCommand) {
-    const { logger, planetRepository } = this.dependencies;
+    const { logger, planetRepository, appConfig } = this.dependencies;
     const newPlanetName = payload.name;
     logger.info("Command PostPlanet executed");
 
-    const planetExists = await planetRepository.findOne({
-      where: { name: newPlanetName },
-    });
+    const planetExists = await planetRepository.getPlanetByName(newPlanetName);
 
     if (planetExists) {
       throw new PlanetAlreadyExistsError(newPlanetName);
     }
 
-    const customPlanetMinId = 1000;
+    const minCustomPlanetId = Number(appConfig.minCustomPlanetId);
 
-    const { highestId } = await planetRepository
-      .createQueryBuilder("planet")
-      .select("MAX(planet.id)", "highestId")
-      .where(`id >= ${customPlanetMinId}`)
-      .getRawOne();
+    const highestId = await planetRepository.getHighestCustomPlanetId();
 
-    const id = highestId ? highestId + 1 : customPlanetMinId;
+    const id = highestId ? highestId + 1 : minCustomPlanetId;
 
     const newPlanet = await planetRepository.save(PlanetEntity.create({ id, ...payload }));
 
