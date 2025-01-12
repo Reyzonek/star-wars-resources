@@ -32,7 +32,7 @@ export class PlanetEntity {
   @PrimaryColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -65,13 +65,13 @@ export class PlanetEntity {
   })
   films: string[];
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   url: string;
 
-  @Column()
+  @Column({ nullable: true })
   created: string;
 
-  @Column()
+  @Column({ nullable: true })
   edited: string;
 
   @CreateDateColumn({ name: "created_at" })
